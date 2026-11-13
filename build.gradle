@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'pe.sigo40'
+version = '1.0'
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(21) }
+}
+
+repositories { mavenCentral() }
+
+application {
+    mainClass = 'pe.sigo40.red.ServidorCentral'
+}
+
+def tarea(String nombre, String clase, String desc) {
+    tasks.register(nombre, JavaExec) {
+        group = 'sigo40'
+        description = desc
+        classpath = sourceSets.main.runtimeClasspath
+        mainClass = clase
+        standardInput = System.in
+    }
+}
+
+tarea('servidor',  'pe.sigo40.red.ServidorCentral',        'Servidor TCP central (San Isidro), puerto 8080')
+tarea('clienteObra','pe.sigo40.red.ClienteObra',           'Cliente TCP de una obra: envia parte diario y pedido')
+tarea('receptor',  'pe.sigo40.red.ReceptorSensores',       'Receptor UDP de sensores de curado, puerto 9090')
+tarea('sensor',    'pe.sigo40.red.SensorCurado',           'Sensor UDP simulado: envia temperatura')
+tarea('bully',     'pe.sigo40.algoritmos.SimulacionBully', 'Eleccion de lider (algoritmo del Maton)')
+tarea('actas',     'pe.sigo40.blockchain.DemoActas',       'Cadena de bloques de actas de calidad')
